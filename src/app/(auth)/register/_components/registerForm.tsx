@@ -18,9 +18,12 @@ import { FormSchema, formSchema } from "../_models/register";
 import { useTransition } from "react";
 import { submitForm } from "../_actions/register";
 import { errorToaster } from "@/lib/errorToaster";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function RegisterForm() {
   const [isPending, startTransition] = useTransition();
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
@@ -43,6 +46,10 @@ export default function RegisterForm() {
           "refresh_token",
           res?.data?.refresh_token as string
         );
+
+        if (searchParams.get("response_type") === "code") {
+          router.push(`/authorize?${searchParams}`);
+        }
       } catch (error) {
         errorToaster(error);
       }
