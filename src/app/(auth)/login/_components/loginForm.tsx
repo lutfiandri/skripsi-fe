@@ -76,7 +76,9 @@ export default function LoginForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Login</Button>
+        <Button disabled={isPending} type="submit">
+          Login
+        </Button>
       </form>
     </Form>
   );
