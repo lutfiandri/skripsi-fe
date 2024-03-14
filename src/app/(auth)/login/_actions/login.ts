@@ -1,16 +1,24 @@
-import { z } from 'zod';
+'use server';
 
-export const formSchema = z.object({
-  email: z.string().email(),
-  password: z.string(),
-});
+import env from '@/lib/env';
+import { FormSchema, LoginResponse } from '../_models/login';
 
-export type FormSchema = z.infer<typeof formSchema>;
+export const submitForm = async (
+  values: FormSchema
+): Promise<LoginResponse> => {
+  console.log('🚀 ~ submitForm ~ values:', values);
+  const endpoint = `${process.env.BACKEND_BASEURL}/auth/login`;
 
-export const submitForm = (values: FormSchema) => {
-  console.log('values', values);
-  fetch('https://webhook.site/0332d430-6816-4d3d-af55-c07a1c382622', {
+  console.log('🚀 ~ submitForm ~ endpoint:', endpoint);
+  const res = await fetch(endpoint, {
     method: 'POST',
     body: JSON.stringify(values),
+    headers: {
+      'Content-Type': 'application/json',
+    },
   });
+  const data: LoginResponse = await res.json();
+  console.log(data);
+
+  return data;
 };

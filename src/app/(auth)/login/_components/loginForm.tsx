@@ -14,9 +14,15 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { FormSchema, formSchema, submitForm } from '../_actions/login';
+import { submitForm } from '../_actions/login';
+import { useTransition } from 'react';
+import { FormSchema, formSchema } from '../_models/login';
+import { toast } from '@/components/ui/use-toast';
+import { errorToaster } from '@/lib/errorToaster';
 
 export default function LoginForm() {
+  const [isPending, startTransition] = useTransition();
+
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -25,9 +31,22 @@ export default function LoginForm() {
     },
   });
 
+  const onSubmit = form.handleSubmit((data: FormSchema) => {
+    startTransition(async () => {
+      try {
+        const res = await submitForm(data);
+        if (!res.success) throw res?.message as string;
+
+        localStorage.setItem('access_token', res?.data?.access_token as string);
+      } catch (error) {
+        errorToaster(error);
+      }
+    });
+  });
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(submitForm)} className="space-y-4">
+      <form onSubmit={onSubmit} className="space-y-4">
         <FormField
           control={form.control}
           name="email"
