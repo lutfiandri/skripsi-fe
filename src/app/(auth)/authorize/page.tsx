@@ -1,5 +1,4 @@
-import { Button } from "@/components/ui/button";
-import { submitAuthorize } from "./_actions/authorize";
+import { Suspense } from "react";
 import AuthorizeForm from "./_components/authorizeForm";
 
 type PageProps = {
@@ -14,7 +13,9 @@ export default function AuthorizePage({ searchParams }: PageProps) {
       <div className="flex flex-col w-full md:w-[600px] gap-8">
         <h1 className="text-3xl">Authorize Lutfi&apos;s SmartHome to Google</h1>
         <p>Google can .........</p>
-        <AuthorizeForm />
+        <Suspense>
+          <AuthorizeForm />
+        </Suspense>
       </div>
     </div>
   );
