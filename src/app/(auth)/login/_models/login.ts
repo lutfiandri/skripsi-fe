@@ -1,5 +1,5 @@
-import { baseResponseSchema } from '@/app/_models/common';
-import { z } from 'zod';
+import { baseResponseSchema } from "@/app/_models/common";
+import { z } from "zod";
 
 export const formSchema = z.object({
   email: z.string().min(1).email(),

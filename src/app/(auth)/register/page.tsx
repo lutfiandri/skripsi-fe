@@ -1,6 +1,6 @@
-import { Separator } from '@/components/ui/separator';
-import RegisterForm from './_components/registerForm';
-import Link from 'next/link';
+import { Separator } from "@/components/ui/separator";
+import RegisterForm from "./_components/registerForm";
+import Link from "next/link";
 
 export default function RegisterPage() {
   return (
@@ -10,7 +10,7 @@ export default function RegisterPage() {
         <RegisterForm />
         <Separator className="-mb-4" />
         <div className="text-sm">
-          Already have an account?{' '}
+          Already have an account?{" "}
           <Link href="/login" className="text-blue-500 hover:text-blue-700">
             Login &rarr;
           </Link>

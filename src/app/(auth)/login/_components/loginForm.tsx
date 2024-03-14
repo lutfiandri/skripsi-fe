@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -12,13 +12,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { submitForm } from '../_actions/login';
-import { useTransition } from 'react';
-import { FormSchema, formSchema } from '../_models/login';
-import { toast } from '@/components/ui/use-toast';
-import { errorToaster } from '@/lib/errorToaster';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { submitForm } from "../_actions/login";
+import { useTransition } from "react";
+import { FormSchema, formSchema } from "../_models/login";
+import { toast } from "@/components/ui/use-toast";
+import { errorToaster } from "@/lib/errorToaster";
 
 export default function LoginForm() {
   const [isPending, startTransition] = useTransition();
@@ -26,8 +26,8 @@ export default function LoginForm() {
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
   });
 
@@ -37,7 +37,7 @@ export default function LoginForm() {
         const res = await submitForm(data);
         if (!res.success) throw res?.message as string;
 
-        localStorage.setItem('access_token', res?.data?.access_token as string);
+        localStorage.setItem("access_token", res?.data?.access_token as string);
       } catch (error) {
         errorToaster(error);
       }
