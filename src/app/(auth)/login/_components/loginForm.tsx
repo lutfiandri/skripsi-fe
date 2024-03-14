@@ -17,7 +17,6 @@ import { Input } from "@/components/ui/input";
 import { submitForm } from "../_actions/login";
 import { useTransition } from "react";
 import { FormSchema, formSchema } from "../_models/login";
-import { toast } from "@/components/ui/use-toast";
 import { errorToaster } from "@/lib/errorToaster";
 
 export default function LoginForm() {
@@ -38,6 +37,10 @@ export default function LoginForm() {
         if (!res.success) throw res?.message as string;
 
         localStorage.setItem("access_token", res?.data?.access_token as string);
+        localStorage.setItem(
+          "refresh_token",
+          res?.data?.refresh_token as string
+        );
       } catch (error) {
         errorToaster(error);
       }

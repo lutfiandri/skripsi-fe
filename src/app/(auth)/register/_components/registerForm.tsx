@@ -14,20 +14,43 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { FormSchema, formSchema, submitForm } from "../_actions/register";
+import { FormSchema, formSchema } from "../_models/register";
+import { useTransition } from "react";
+import { submitForm } from "../_actions/register";
+import { errorToaster } from "@/lib/errorToaster";
 
 export default function RegisterForm() {
+  const [isPending, startTransition] = useTransition();
+
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
+      name: "",
       password: "",
+      confirm_password: "",
     },
   });
 
+  const onSubmit = form.handleSubmit((data: FormSchema) => {
+    startTransition(async () => {
+      try {
+        const res = await submitForm(data);
+        if (!res.success) throw res?.message as string;
+
+        localStorage.setItem("access_token", res?.data?.access_token as string);
+        localStorage.setItem(
+          "refresh_token",
+          res?.data?.refresh_token as string
+        );
+      } catch (error) {
+        errorToaster(error);
+      }
+    });
+  });
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(submitForm)} className="space-y-4">
+      <form onSubmit={onSubmit} className="space-y-4">
         <FormField
           control={form.control}
           name="email"
