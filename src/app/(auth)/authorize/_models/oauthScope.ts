@@ -6,9 +6,9 @@ export const oauthScopeResponseSchema = baseResponseSchema.extend({
     .object({
       id: z.string(),
       description: z.string(),
-      permission_ids: z.array(z.string()),
-      created_at: z.date(),
-      updated_at: z.date(),
+      // permission_ids: z.array(z.string()),
+      // created_at: z.date(),
+      // updated_at: z.date(),
     })
     .optional(),
 });
